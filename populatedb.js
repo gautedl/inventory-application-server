@@ -1,9 +1,5 @@
 #! /usr/bin/env node
 
-console.log(
-  'This script populates some test books, authors, genres and bookinstances to your database. Specified database as argument - e.g.: populatedb mongodb+srv://cooluser:coolpassword@cluster0.a9azn.mongodb.net/local_library?retryWrites=true'
-);
-
 // Get arguments passed on command line
 const userArgs = process.argv.slice(2);
 /*
@@ -29,25 +25,6 @@ const workouts = [];
 const excercises = [];
 const categories = [];
 const bodyparts = [];
-
-function workoutCreate(title, description, excercise, cb) {
-  workoutdetail = { title: title };
-
-  if (excercise != null) workoutdetail.excercise = excercise;
-  if (description != null) workoutdetail.description = description;
-
-  const workout = new Workout(workoutdetail);
-
-  workout.save(function (err) {
-    if (err) {
-      cb(err, null);
-      return;
-    }
-    console.log('New Workout: ' + workout);
-    workouts.push(workout);
-    cb(null, workout);
-  });
-}
 
 function categoryCreate(name, cb) {
   categoryDetail = { name: name };
@@ -87,8 +64,8 @@ function excerciseCreate(name, category, description, bodyPart, cb) {
     category: category,
   };
 
-  if (bodyPart != null) excercisedetail.bodyPart = bodyPart;
-  if (description != null) excercisedetail.description = description;
+  if (description != false) excercisedetail.description = description;
+  if (bodyPart != false) excercisedetail.body_part = bodyPart;
 
   const excercise = new Excercise(excercisedetail);
   excercise.save(function (err) {
@@ -99,6 +76,25 @@ function excerciseCreate(name, category, description, bodyPart, cb) {
     console.log('New Excercise: ' + excercise);
     excercises.push(excercise);
     cb(null, excercise);
+  });
+}
+
+function workoutCreate(title, description, excercise, cb) {
+  workoutdetail = { title: title };
+
+  if (excercise != false) workoutdetail.excercises = excercise;
+  if (description != false) workoutdetail.description = description;
+
+  const workout = new Workout(workoutdetail);
+
+  workout.save(function (err) {
+    if (err) {
+      cb(err, null);
+      return;
+    }
+    console.log('New Workout: ' + workout);
+    workouts.push(workout);
+    cb(null, workout);
   });
 }
 

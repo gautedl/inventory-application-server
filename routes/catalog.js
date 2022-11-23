@@ -13,9 +13,11 @@ router.get('/categories', category_controller.category_list);
 router.get('/body_parts', bodypart_controller.bodypart_list);
 
 /// EXCERCISE ROUTES ///
+router.get('/excercise/:id', excercise_controller.excercise_detail);
 router.get('/excercises', excercise_controller.excercise_list);
 
 /// WORKOUT ROUTES ///
+router.get('/workout/:id', workout_controller.workout_detail);
 router.get('/workouts', workout_controller.workout_list);
 
 module.exports = router;

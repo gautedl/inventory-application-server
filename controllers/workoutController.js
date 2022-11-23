@@ -26,4 +26,26 @@ const workout_list = async (req, res, next) => {
   }
 };
 
-module.exports = { workout_list };
+// Get details of one Workout
+const workout_detail = async (req, res) => {
+  try {
+    const workout = await Workout.findById(req.params.id)
+      .populate([
+        {
+          path: 'excercises',
+          populate: { path: 'body_part' },
+        },
+      ])
+      .populate([
+        {
+          path: 'excercises',
+          populate: { path: 'category' },
+        },
+      ]);
+    return res.json(workout);
+  } catch (err) {
+    return res.json({ message: err.message });
+  }
+};
+
+module.exports = { workout_list, workout_detail };

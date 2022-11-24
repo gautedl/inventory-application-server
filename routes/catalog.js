@@ -15,10 +15,12 @@ router.get('/body_part/:id', bodypart_controller.bodypart_detail);
 router.get('/body_parts', bodypart_controller.bodypart_list);
 
 /// EXCERCISE ROUTES ///
+router.post('/excercise/create', excercise_controller.excercise_create);
 router.get('/excercise/:id', excercise_controller.excercise_detail);
 router.get('/excercises', excercise_controller.excercise_list);
 
 /// WORKOUT ROUTES ///
+router.post('/workout/create', workout_controller.workout_create);
 router.get('/workout/:id', workout_controller.workout_detail);
 router.get('/workouts', workout_controller.workout_list);
 

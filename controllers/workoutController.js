@@ -1,4 +1,5 @@
 const Workout = require('../models/workout');
+const { body, validationResult } = require('express-validator');
 
 // Display list of all workouts
 const workout_list = async (req, res, next) => {
@@ -48,4 +49,30 @@ const workout_detail = async (req, res) => {
   }
 };
 
-module.exports = { workout_list, workout_detail };
+// Create new Workout
+const workout_create = [
+  body('title', 'Tame must not be empty').trim().isLength({ min: 1 }).escape(),
+  body('description').optional({ checkFalsy: true }),
+
+  async (req, res) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      res.json(errors.array());
+    } else {
+      const workout = new Workout({
+        title: req.body.title,
+        excercises: req.body.excercises,
+        description: req.body.description,
+      });
+      try {
+        const savedWorkout = await workout.save();
+        return res.json(savedWorkout);
+      } catch (err) {
+        return res.json({ message: err.message });
+      }
+    }
+  },
+];
+
+module.exports = { workout_list, workout_detail, workout_create };

@@ -131,6 +131,9 @@ function createCategoryBodyParts(cb) {
       function (callback) {
         bodyPartCreate('Abs', callback);
       },
+      function (callback) {
+        bodyPartCreate('Forearms', callback);
+      },
     ],
     // optional callback
     cb

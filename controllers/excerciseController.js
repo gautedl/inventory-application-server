@@ -53,4 +53,38 @@ const excercise_create = [
   },
 ];
 
-module.exports = { excercise_list, excercise_detail, excercise_create };
+const excercise_update = [
+  body('name', 'Name must not be empty').trim().isLength({ min: 1 }).escape(),
+  body('description').optional({ checkFalsy: true }),
+
+  async (req, res) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      res.json(errors.array());
+    } else {
+      try {
+        const updateExcercise = await Excercise.updateOne(
+          { _id: req.params.id },
+          {
+            name: req.body.name,
+            category: req.body.category,
+            description: req.body.description,
+            body_part: req.body.body_part,
+            _id: req.params.id,
+          }
+        );
+        return res.json(updateExcercise);
+      } catch (err) {
+        return res.json({ message: err.message });
+      }
+    }
+  },
+];
+
+module.exports = {
+  excercise_list,
+  excercise_detail,
+  excercise_create,
+  excercise_update,
+};

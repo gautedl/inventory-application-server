@@ -75,4 +75,38 @@ const workout_create = [
   },
 ];
 
-module.exports = { workout_list, workout_detail, workout_create };
+// Update Workout
+const workout_update = [
+  body('title', 'Tame must not be empty').trim().isLength({ min: 1 }).escape(),
+  body('description').optional({ checkFalsy: true }),
+
+  async (req, res) => {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      res.json(errors.array());
+    } else {
+      try {
+        const updateWorkout = await Workout.updateOne(
+          { _id: req.params.id },
+          {
+            title: req.body.title,
+            excercises: req.body.excercises,
+            description: req.body.description,
+            _id: req.params.id,
+          }
+        );
+        return res.json(updateWorkout);
+      } catch (err) {
+        return res.json({ message: err.message });
+      }
+    }
+  },
+];
+
+module.exports = {
+  workout_list,
+  workout_detail,
+  workout_create,
+  workout_update,
+};

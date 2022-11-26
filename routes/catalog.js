@@ -16,12 +16,14 @@ router.get('/body_parts', bodypart_controller.bodypart_list);
 
 /// EXCERCISE ROUTES ///
 router.post('/excercise/create', excercise_controller.excercise_create);
+router.post('/excercise/:id/delete', excercise_controller.excercise_delete);
 router.post('/excercise/:id/update', excercise_controller.excercise_update);
 router.get('/excercise/:id', excercise_controller.excercise_detail);
 router.get('/excercises', excercise_controller.excercise_list);
 
 /// WORKOUT ROUTES ///
 router.post('/workout/create', workout_controller.workout_create);
+router.post('/workout/:id/delete', workout_controller.workout_delete);
 router.post('/workout/:id/update', workout_controller.workout_update);
 router.get('/workout/:id', workout_controller.workout_detail);
 router.get('/workouts', workout_controller.workout_list);

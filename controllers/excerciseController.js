@@ -82,9 +82,19 @@ const excercise_update = [
   },
 ];
 
+const excercise_delete = async (req, res) => {
+  try {
+    const deleteExcercise = await Excercise.findByIdAndDelete(req.params.id);
+    return res.json(deleteExcercise);
+  } catch (err) {
+    return res.json({ message: err.message });
+  }
+};
+
 module.exports = {
   excercise_list,
   excercise_detail,
   excercise_create,
   excercise_update,
+  excercise_delete,
 };

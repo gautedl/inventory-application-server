@@ -51,7 +51,7 @@ const workout_detail = async (req, res) => {
 
 // Create new Workout
 const workout_create = [
-  body('title', 'Tame must not be empty').trim().isLength({ min: 1 }).escape(),
+  body('title', 'Title must not be empty').trim().isLength({ min: 1 }).escape(),
   body('description').optional({ checkFalsy: true }),
 
   async (req, res) => {
@@ -77,7 +77,7 @@ const workout_create = [
 
 // Update Workout
 const workout_update = [
-  body('title', 'Tame must not be empty').trim().isLength({ min: 1 }).escape(),
+  body('title', 'Title must not be empty').trim().isLength({ min: 1 }).escape(),
   body('description').optional({ checkFalsy: true }),
 
   async (req, res) => {
@@ -104,9 +104,19 @@ const workout_update = [
   },
 ];
 
+const workout_delete = async (req, res) => {
+  try {
+    const deleteWorkout = await Workout.findByIdAndDelete(req.params.id);
+    return res.json(deleteWorkout);
+  } catch (err) {
+    return res.json({ message: err.message });
+  }
+};
+
 module.exports = {
   workout_list,
   workout_detail,
   workout_create,
   workout_update,
+  workout_delete,
 };

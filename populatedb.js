@@ -58,7 +58,7 @@ function bodyPartCreate(name, cb) {
   });
 }
 
-function excerciseCreate(name, category, description, bodyPart, cb) {
+function excerciseCreate(name, category, description, bodyPart, img, cb) {
   excercisedetail = {
     name: name,
     category: category,
@@ -66,6 +66,7 @@ function excerciseCreate(name, category, description, bodyPart, cb) {
 
   if (description != false) excercisedetail.description = description;
   if (bodyPart != false) excercisedetail.body_part = bodyPart;
+  if (img != false) excercisedetail.img_url = img;
 
   const excercise = new Excercise(excercisedetail);
   excercise.save(function (err) {
@@ -79,11 +80,12 @@ function excerciseCreate(name, category, description, bodyPart, cb) {
   });
 }
 
-function workoutCreate(title, description, excercise, cb) {
+function workoutCreate(title, description, excercise, img, cb) {
   workoutdetail = { title: title };
 
   if (excercise != false) workoutdetail.excercises = excercise;
   if (description != false) workoutdetail.description = description;
+  if (img != false) workoutdetail.img_url = img;
 
   const workout = new Workout(workoutdetail);
 
@@ -149,6 +151,7 @@ function createExcercises(cb) {
           categories[0],
           'Pick up weight from floor, put it down again.',
           [bodyparts[0], bodyparts[2]],
+          'https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/deadlift-workout-for-back-royalty-free-image-527680187-1553003041.jpg?resize=980:*',
           callback
         );
       },
@@ -158,6 +161,7 @@ function createExcercises(cb) {
           categories[0],
           'Put weight on your shoulders and squat.',
           [bodyparts[2]],
+          'https://static.strengthlevel.com/images/illustrations/squat-1000x1000.jpg',
           callback
         );
       },
@@ -167,6 +171,7 @@ function createExcercises(cb) {
           categories[0],
           'Lie down and lift a barbell up and down.',
           [bodyparts[1]],
+          'https://static.strengthlevel.com/images/illustrations/bench-press-1000x1000.jpg',
           callback
         );
       },
@@ -176,15 +181,17 @@ function createExcercises(cb) {
           categories[0],
           'Row that weight.',
           [bodyparts[0]],
+          'https://static.strengthlevel.com/images/illustrations/seated-cable-row-1000x1000.jpg',
           callback
         );
       },
       function (callback) {
         excerciseCreate(
-          'Intervalls',
+          'Intervals',
           categories[1],
           'Run for a short period, walk, and then run again.',
           false,
+          'https://www.wikihow.com/images/thumb/3/36/Do-an-Interval-Run-Step-15.jpg/aid11979738-v4-1200px-Do-an-Interval-Run-Step-15.jpg',
           callback
         );
       },
@@ -192,8 +199,9 @@ function createExcercises(cb) {
         excerciseCreate(
           'Weighted Pull ups',
           categories[0],
-          'Strap weights around your wais and pull yourself up.',
+          'Strap weights around your waist and pull yourself up.',
           [bodyparts[0], bodyparts[4]],
+          'https://i.pinimg.com/originals/c5/c3/7f/c5c37fbe4f451da36c4ab7df41420e0b.png',
           callback
         );
       },
@@ -203,6 +211,7 @@ function createExcercises(cb) {
           categories[2],
           'Pull yourself up.',
           [bodyparts[0], bodyparts[4]],
+          'https://hips.hearstapps.com/hmg-prod/images/u05-bottomhalfwaytop-ism-mh310118-1558552383.jpg?crop=1.00xw:0.812xh;0,0.0812xh&resize=480:*',
           callback
         );
       },
@@ -220,6 +229,7 @@ function createWorkout(cb) {
           'A little bit of everything',
           'Test Workout',
           [...excercises],
+          'https://thumbs.dreamstime.com/b/sport-inspiring-workout-fitness-gym-motivation-quote-illustration-creative-strong-vector-rough-typography-grunge-wallpaper-160353323.jpg',
           callback
         );
       },

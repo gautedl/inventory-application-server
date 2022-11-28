@@ -7,6 +7,7 @@ const ExcerciseSchema = new Schema({
   category: { type: Schema.Types.ObjectId, ref: 'Category', required: true },
   description: { type: String },
   body_part: [{ type: Schema.Types.ObjectId, ref: 'BodyPart' }],
+  img_url: { type: String },
 });
 
 ExcerciseSchema.virtual('url').get(function () {

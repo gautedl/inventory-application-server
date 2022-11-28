@@ -1,5 +1,6 @@
 const Excercise = require('../models/excercise');
 const { body, validationResult } = require('express-validator');
+require('dotenv').config();
 
 // Display list of all Excercises
 const excercise_list = async (req, res, next) => {
@@ -29,6 +30,7 @@ const excercise_detail = async (req, res) => {
 const excercise_create = [
   body('name', 'Name must not be empty').trim().isLength({ min: 1 }).escape(),
   body('description').optional({ checkFalsy: true }),
+  body('img_url').optional({ checkFalsy: true }),
 
   async (req, res, next) => {
     // Extract the validation errors from a request.
@@ -42,6 +44,7 @@ const excercise_create = [
         category: req.body.category,
         description: req.body.description,
         body_part: req.body.body_part,
+        img_url: req.body.img_url,
       });
       try {
         const savedExcercise = await excercise.save();
@@ -56,6 +59,7 @@ const excercise_create = [
 const excercise_update = [
   body('name', 'Name must not be empty').trim().isLength({ min: 1 }).escape(),
   body('description').optional({ checkFalsy: true }),
+  body('img_url').optional({ checkFalsy: true }),
 
   async (req, res) => {
     const errors = validationResult(req);
@@ -64,6 +68,9 @@ const excercise_update = [
       res.json(errors.array());
     } else {
       try {
+        if (req.body.password !== process.env.REACT_APP_PASSWORD) {
+          return res.json('Wrong Password');
+        }
         const updateExcercise = await Excercise.updateOne(
           { _id: req.params.id },
           {
@@ -71,6 +78,7 @@ const excercise_update = [
             category: req.body.category,
             description: req.body.description,
             body_part: req.body.body_part,
+            img_url: req.body.img_url,
             _id: req.params.id,
           }
         );
@@ -83,9 +91,18 @@ const excercise_update = [
 ];
 
 const excercise_delete = async (req, res) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    res.json(errors.array());
+  }
   try {
-    const deleteExcercise = await Excercise.findByIdAndDelete(req.params.id);
-    return res.json(deleteExcercise);
+    if (req.body.password == process.env.REACT_APP_PASSWORD) {
+      const deleteExcercise = await Excercise.findByIdAndDelete(req.params.id);
+      return res.json(deleteExcercise);
+    } else {
+      return res.json('Wrong Password');
+    }
   } catch (err) {
     return res.json({ message: err.message });
   }

@@ -6,6 +6,7 @@ WorkoutSchema = new Schema({
   title: { type: String, required: true, maxLength: 50 },
   excercises: [{ type: Schema.Types.ObjectId, ref: 'Excercise' }],
   description: { type: String },
+  img_url: { type: String },
 });
 
 WorkoutSchema.virtual('url').get(function () {
